@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MAISON — Moda Premium</title>
+  <link rel="icon" type="image/png" href="/img/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap"
+    rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/css/main.css" />
+
+</head>
+
+<body class="bg-[#F9F7F5] text-[#1a1a1a]">
+
+  <!-- NAV -->
+  <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <a href="index.html" class="logo-text text-2xl tracking-[0.3em] text-[#1a1a1a] font-light">MAISON</a>
+      <div class="hidden md:flex items-center gap-10">
+        <a href="produtos.html"
+          class="nav-link text-xs tracking-[0.2em] uppercase font-medium text-[#555] hover:text-[#6D0F1F] transition-colors">Coleção</a>
+        <a href="produtos.html?cat=camisetas"
+          class="nav-link text-xs tracking-[0.2em] uppercase font-medium text-[#555] hover:text-[#6D0F1F] transition-colors">Camisetas</a>
+        <a href="produtos.html?cat=moletons"
+          class="nav-link text-xs tracking-[0.2em] uppercase font-medium text-[#555] hover:text-[#6D0F1F] transition-colors">Moletons</a>
+        <a href="produtos.html?cat=calcas"
+          class="nav-link text-xs tracking-[0.2em] uppercase font-medium text-[#555] hover:text-[#6D0F1F] transition-colors">Calças</a>
+      </div>
+      <div class="flex items-center gap-5">
+        <a href="login.html"
+          class="text-xs tracking-[0.15em] uppercase text-[#555] hover:text-[#6D0F1F] transition-colors">Entrar</a>
+        <a href="carrinho.html" class="cart-icon relative">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <path d="M16 10a4 4 0 01-8 0" />
+          </svg>
+          <span id="cart-count"
+            class="absolute -top-2 -right-2 w-4 h-4 bg-[#6D0F1F] text-white text-[9px] rounded-full flex items-center justify-center font-medium">0</span>
+        </a>
+        <button class="md:hidden" id="menu-toggle">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="18" x2="21" y2="18" />
+          </svg>
+        </button>
+      </div>
+    </div>
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 px-6 py-4 flex flex-col gap-4">
+      <a href="produtos.html" class="text-xs tracking-[0.2em] uppercase text-[#555]">Coleção</a>
+      <a href="produtos.html?cat=camisetas" class="text-xs tracking-[0.2em] uppercase text-[#555]">Camisetas</a>
+      <a href="produtos.html?cat=moletons" class="text-xs tracking-[0.2em] uppercase text-[#555]">Moletons</a>
+      <a href="produtos.html?cat=calcas" class="text-xs tracking-[0.2em] uppercase text-[#555]">Calças</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero-section relative h-screen flex items-end overflow-hidden">
+    <!-- Image background with parallax -->
+    <div class="hero-bg absolute inset-0" id="hero-bg">
+      <img id="hero-img"
+        src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=1800&q=85&auto=format&fit=crop&crop=top"
+        alt="MAISON — Nova Coleção" class="hero-photo" loading="eager" />
+      <!-- Multi-layer overlay: escurece base + preserva legibilidade do texto -->
+      <div class="hero-overlay-dark"></div>
+      <div class="hero-gradient"></div>
+    </div>
+
+    <!-- Floating tag — aparece com delay -->
+    <div class="hero-tag fade-in-up" style="animation-delay:1.4s">
+      <span class="hero-tag-dot"></span>
+      Outono 2025
+    </div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-6 pb-20 w-full grid md:grid-cols-2 gap-8 items-end">
+      <div class="hero-content">
+        <p class="text-xs tracking-[0.4em] uppercase text-[#e8a8bf] mb-4 fade-in-up" style="animation-delay:0.2s">Nova
+          Coleção · Outono 2025</p>
+        <h1 class="font-cormorant text-6xl md:text-8xl font-light leading-[0.9] mb-6 fade-in-up text-white"
+          style="animation-delay:0.4s">
+          Veste<br /><em class="italic text-[#e8a8bf]">sua</em><br />essência.
+        </h1>
+        <p class="text-sm text-white/90 tracking-wide leading-relaxed mb-8 max-w-xs fade-in-up"
+          style="animation-delay:0.6s">
+          Peças cuidadosamente selecionadas para quem não abre mão de estilo e conforto.
+        </p>
+        <a href="produtos.html" class="btn-hero fade-in-up inline-block" style="animation-delay:0.8s">
+          Explorar Coleção
+        </a>
+      </div>
+      <div class="hero-stats hidden md:flex flex-col items-end gap-6 fade-in-up" style="animation-delay:1s">
+        <div class="stat-card-dark text-right">
+          <div class="text-4xl font-cormorant font-light text-[#e8a8bf]">+200</div>
+          <div class="text-xs tracking-[0.2em] uppercase text-white/80">Peças Únicas</div>
+        </div>
+        <div class="stat-card-dark text-right">
+          <div class="text-4xl font-cormorant font-light text-[#e8a8bf]">4.9★</div>
+          <div class="text-xs tracking-[0.2em] uppercase text-white/80">Avaliação Média</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 scroll-indicator">
+      <span class="text-[10px] tracking-[0.3em] uppercase text-white/50">Scroll</span>
+      <div class="scroll-line-light"></div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-wrapper bg-[#6D0F1F] py-3 overflow-hidden">
+    <div class="marquee-track text-white text-xs tracking-[0.4em] uppercase font-medium whitespace-nowrap">
+      <span>Frete Grátis acima de R$299 &nbsp;·&nbsp; Nova Coleção Disponível &nbsp;·&nbsp; Parcelamento em 6x sem juros
+        &nbsp;·&nbsp; Devolução Grátis &nbsp;·&nbsp; Frete Grátis acima de R$299 &nbsp;·&nbsp; Nova Coleção Disponível
+        &nbsp;·&nbsp; Parcelamento em 6x sem juros &nbsp;·&nbsp; Devolução Grátis &nbsp;·&nbsp;</span>
+    </div>
+  </div>
+
+  <!-- CATEGORIAS -->
+  <section class="py-24 max-w-7xl mx-auto px-6">
+    <div class="flex items-end justify-between mb-12">
+      <div>
+        <p class="text-xs tracking-[0.3em] uppercase text-[#6D0F1F] mb-2">Explore por</p>
+        <h2 class="font-cormorant text-4xl md:text-5xl font-light">Categorias</h2>
+      </div>
+      <a href="produtos.html"
+        class="hidden md:block text-xs tracking-[0.2em] uppercase text-[#888] hover:text-[#6D0F1F] transition-colors border-b border-transparent hover:border-[#6D0F1F] pb-0.5">Ver
+        tudo</a>
+    </div>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <a href="produtos.html?cat=camisetas"
+        class="category-card group relative overflow-hidden rounded-sm aspect-[3/4]">
+        <div class="category-img" style="background: url('/img/produtos/basica.jpg') center/cover no-repeat">
+        </div>
+        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+        <div class="absolute bottom-0 left-0 right-0 p-5">
+          <div class="text-white text-xs tracking-[0.3em] uppercase font-medium">Camisetas</div>
+          <div class="text-white/60 text-xs mt-1">32 peças</div>
+        </div>
+      </a>
+
+      <a href="produtos.html?cat=calcas" class="category-card group relative overflow-hidden rounded-sm aspect-[3/4]">
+        <div class="category-img" style="background: url('/img/produtos/baggy.jpg') center/cover no-repeat"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+        <div class="absolute bottom-0 left-0 right-0 p-5">
+          <div class="text-white text-xs tracking-[0.3em] uppercase font-medium">Calças</div>
+          <div class="text-white/60 text-xs mt-1">24 peças</div>
+        </div>
+      </a>
+
+      <a href="produtos.html?cat=vestidos"
+        class="category-card group relative overflow-hidden rounded-sm aspect-[3/4] md:mt-8">
+        <div class="category-img" style="background: url('/img/produtos/longo.jpg') center/cover no-repeat"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+        <div class="absolute bottom-0 left-0 right-0 p-5">
+          <div class="text-white text-xs tracking-[0.3em] uppercase font-medium">Vestidos</div>
+          <div class="text-white/60 text-xs mt-1">18 peças</div>
+        </div>
+      </a>
+
+      <a href="produtos.html?cat=acessorios"
+        class="category-card group relative overflow-hidden rounded-sm aspect-[3/4] md:mt-16">
+        <div class="category-img" style="background: url('/img/produtos/cinto.jpg') center/cover no-repeat"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+        <div class="absolute bottom-0 left-0 right-0 p-5">
+          <div class="text-white text-xs tracking-[0.3em] uppercase font-medium">Acessórios</div>
+          <div class="text-white/60 text-xs mt-1">40 peças</div>
+        </div>
+      </a>
+    </div>
+    </div>
+  </section>
+
+  <!-- PRODUTOS EM DESTAQUE -->
+  <section class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="flex items-end justify-between mb-12">
+        <div>
+          <p class="text-xs tracking-[0.3em] uppercase text-[#6D0F1F] mb-2">Mais Vendidos</p>
+          <h2 class="font-cormorant text-4xl md:text-5xl font-light">Destaques</h2>
+        </div>
+        <a href="produtos.html"
+          class="hidden md:block text-xs tracking-[0.2em] uppercase text-[#888] hover:text-[#6D0F1F] transition-colors">Ver
+          todos →</a>
+      </div>
+      <div id="produtos-destaque" class="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <!-- Produtos carregados via JS -->
+        <div class="product-skeleton"></div>
+        <div class="product-skeleton"></div>
+        <div class="product-skeleton"></div>
+        <div class="product-skeleton"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BANNER EDITORIAL -->
+  <section class="editorial-banner relative overflow-hidden py-32">
+    <div class="editorial-bg"></div>
+    <div class="relative z-10 max-w-7xl mx-auto px-6 text-center">
+      <p class="text-xs tracking-[0.5em] uppercase text-[#c4849a
+      
+      ] mb-4">Qualidade que se sente</p>
+      <h2 class="font-cormorant text-5xl md:text-7xl font-light text-white leading-tight mb-6">
+        Cada detalhe<br /><em class="italic">importa.</em>
+      </h2>
+      <p class="text-white/60 text-sm max-w-md mx-auto mb-10 leading-relaxed">
+        Tecidos selecionados, costura impecável. Nossas peças são criadas para durar e impressionar.
+      </p>
+      <a href="produtos.html" class="btn-secondary inline-block">Conhecer a Marca</a>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="py-20 bg-[#F9F7F5]">
+    <div class="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8">
+      <div class="feature-item text-center">
+        <div class="feature-icon mx-auto mb-4">🚚</div>
+        <h3 class="text-xs tracking-[0.2em] uppercase font-medium mb-2">Frete Grátis</h3>
+        <p class="text-xs text-[#888] leading-relaxed">Compras acima de R$299 com entrega em todo Brasil</p>
+      </div>
+      <div class="feature-item text-center">
+        <div class="feature-icon mx-auto mb-4">🔄</div>
+        <h3 class="text-xs tracking-[0.2em] uppercase font-medium mb-2">Troca Fácil</h3>
+        <p class="text-xs text-[#888] leading-relaxed">30 dias para trocar ou devolver sem perguntas</p>
+      </div>
+      <div class="feature-item text-center">
+        <div class="feature-icon mx-auto mb-4">🔒</div>
+        <h3 class="text-xs tracking-[0.2em] uppercase font-medium mb-2">Pagamento Seguro</h3>
+        <p class="text-xs text-[#888] leading-relaxed">Pix, cartão e boleto com total segurança</p>
+      </div>
+      <div class="feature-item text-center">
+        <div class="feature-icon mx-auto mb-4">💎</div>
+        <h3 class="text-xs tracking-[0.2em] uppercase font-medium mb-2">Qualidade Premium</h3>
+        <p class="text-xs text-[#888] leading-relaxed">Tecidos selecionados e acabamento impecável</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-[#1a1a1a] text-white py-16">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid md:grid-cols-4 gap-10 mb-12">
+        <div>
+          <div class="logo-text text-xl tracking-[0.3em] mb-4">MAISON</div>
+          <p class="text-xs text-white/40 leading-relaxed">Moda que transforma. Estilo que permanece.</p>
+        </div>
+        <div>
+          <h4 class="text-xs tracking-[0.3em] uppercase text-white/50 mb-4">Loja</h4>
+          <div class="flex flex-col gap-2">
+            <a href="produtos.html" class="text-xs text-white/60 hover:text-white transition-colors">Coleção
+              Completa</a>
+            <a href="produtos.html?cat=novidades"
+              class="text-xs text-white/60 hover:text-white transition-colors">Novidades</a>
+            <a href="produtos.html?destaque=true" class="text-xs text-white/60 hover:text-white transition-colors">Mais
+              Vendidos</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="text-xs tracking-[0.3em] uppercase text-white/50 mb-4">Conta</h4>
+          <div class="flex flex-col gap-2">
+            <a href="login.html" class="text-xs text-white/60 hover:text-white transition-colors">Entrar</a>
+            <a href="cadastro.html" class="text-xs text-white/60 hover:text-white transition-colors">Cadastrar</a>
+            <a href="minha-conta.html" class="text-xs text-white/60 hover:text-white transition-colors">Meus Pedidos</a>
+            <a href="admin/login.html" class="text-xs text-white/60 hover:text-white transition-colors">Admin</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="text-xs tracking-[0.3em] uppercase text-white/50 mb-4">Contato</h4>
+          <p class="text-xs text-white/40 mb-2">contato@maison.com.br</p>
+          <p class="text-xs text-white/40">(11) 9 9999-9999</p>
+        </div>
+      </div>
+      <div class="border-t border-white/10 pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
+        <p class="text-xs text-white/30">© 2025 MAISON. Todos os direitos reservados.</p>
+        <div class="flex gap-6">
+          <a href="#" class="text-xs text-white/30 hover:text-white transition-colors">Privacidade</a>
+          <a href="#" class="text-xs text-white/30 hover:text-white transition-colors">Termos</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/cart.js"></script>
+  <script src="../js/home.js"></script>
+  <script src="../js/back-button.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Produto — MAISON</title>
+  <link rel="icon" type="image/png" href="/img/logo.png">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Montserrat:wght@300;400;500;600&display=swap"
+    rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../css/main.css" />
+</head>
+
+<body class="bg-[#F9F7F5]">
+
+  <nav class="navbar-scrolled fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <a href="index.html" class="logo-text text-2xl tracking-[0.3em] text-[#1a1a1a]">MAISON</a>
+      <div class="flex items-center gap-5">
+        <a href="produtos.html" class="text-xs tracking-[0.2em] uppercase text-[#555] hover:text-[#6D0F1F]">Coleção</a>
+        <button onclick="history.back()"
+          class="flex items-center gap-1.5 text-xs tracking-[0.15em] uppercase text-[#555] hover:text-[#6D0F1F] transition-colors">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M19 12H5M5 12l7 7M5 12l7-7" />
+          </svg>
+          Voltar
+        </button>
+        <a href="carrinho.html" class="relative">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <path d="M16 10a4 4 0 01-8 0" />
+          </svg>
+          <span id="cart-count"
+            class="absolute -top-2 -right-2 w-4 h-4 bg-[#6D0F1F] text-white text-[9px] rounded-full flex items-center justify-center">0</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="max-w-7xl mx-auto px-6 pt-28 pb-20" id="product-page">
+    <div class="breadcrumb mb-8">
+      <a href="index.html">Home</a>
+      <span class="breadcrumb-sep">›</span>
+      <a href="produtos.html">Coleção</a>
+      <span class="breadcrumb-sep">›</span>
+      <span id="breadcrumb-name">Produto</span>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-12 lg:gap-20">
+      <!-- GALLERY -->
+      <div>
+        <div class="product-gallery-main mb-4 flex items-center justify-center" id="main-img">
+          <div style="font-size:8rem;opacity:0.3" id="product-emoji">👗</div>
+        </div>
+        <div class="flex gap-3" id="thumbs"></div>
+      </div>
+
+      <!-- INFO -->
+      <div class="flex flex-col gap-6">
+        <div>
+          <p class="section-eyebrow" id="product-cat">Categoria</p>
+          <h1 class="font-cormorant text-4xl md:text-5xl font-light mb-3" id="product-name">Carregando...</h1>
+          <div class="flex items-baseline gap-3">
+            <span class="font-cormorant text-3xl" id="product-price">—</span>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div id="product-desc" class="text-sm text-[#666] leading-relaxed">
+          Descrição do produto carregando...
+        </div>
+
+        <!-- Sizes -->
+        <div>
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs tracking-[0.2em] uppercase font-medium text-[#555]">Tamanho</span>
+          </div>
+          <div class="flex gap-2" id="sizes">
+            <button class="size-btn selected" data-size="P">P</button>
+            <button class="size-btn" data-size="M">M</button>
+            <button class="size-btn" data-size="G">G</button>
+            <button class="size-btn" data-size="GG">GG</button>
+          </div>
+        </div>
+
+        <!-- Qty + Add -->
+        <div class="flex gap-4 items-center">
+          <div class="qty-control">
+            <button class="qty-btn" onclick="changeQty(-1)">−</button>
+            <span class="qty-num" id="qty-display">1</span>
+            <button class="qty-btn" onclick="changeQty(1)">+</button>
+          </div>
+          <button id="add-btn" onclick="addToCart()" class="btn-wine flex-1 text-center">
+            Adicionar ao Carrinho
+          </button>
+        </div>
+
+        <!-- Features -->
+        <div class="divider"></div>
+        <div class="flex flex-col gap-3">
+          <div class="flex items-center gap-3 text-xs text-[#888]">
+            <span>🚚</span> Frete grátis acima de R$299
+          </div>
+          <div class="flex items-center gap-3 text-xs text-[#888]">
+            <span>🔄</span> Troca em até 30 dias
+          </div>
+          <div class="flex items-center gap-3 text-xs text-[#888]">
+            <span>🔒</span> Compra 100% segura
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="bg-[#1a1a1a] text-white py-10">
+    <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+      <div class="logo-text text-xl tracking-[0.3em]">MAISON</div>
+      <p class="text-xs text-white/30">© 2025 MAISON</p>
+    </div>
+  </footer>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/cart.js"></script>
+  <script src="../js/produto.js"></script>
+  <script src="../js/back-button.js"></script>
+</body>
+
+</html>

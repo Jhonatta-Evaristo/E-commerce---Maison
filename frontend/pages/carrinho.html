@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Carrinho — MAISON</title>
+  <link rel="icon" type="image/png" href="/img/logo.png">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Montserrat:wght@300;400;500;600&display=swap"
+    rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../css/main.css" />
+</head>
+
+<body class="bg-[#F9F7F5]">
+
+  <nav class="navbar-scrolled fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <a href="index.html" class="logo-text text-2xl tracking-[0.3em] text-[#1a1a1a]">MAISON</a>
+      <div class="flex items-center gap-5">
+        <a href="produtos.html" class="text-xs tracking-[0.2em] uppercase text-[#555] hover:text-[#6D0F1F]">Coleção</a>
+        <button onclick="history.back()"
+          class="flex items-center gap-1.5 text-xs tracking-[0.15em] uppercase text-[#555] hover:text-[#6D0F1F] transition-colors">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M19 12H5M5 12l7 7M5 12l7-7" />
+          </svg>
+          Voltar
+        </button>
+        <a href="carrinho.html" class="relative">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <path d="M16 10a4 4 0 01-8 0" />
+          </svg>
+          <span id="cart-count"
+            class="absolute -top-2 -right-2 w-4 h-4 bg-[#6D0F1F] text-white text-[9px] rounded-full flex items-center justify-center">0</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="max-w-5xl mx-auto px-6 pt-28 pb-20">
+    <div class="breadcrumb mb-8">
+      <a href="index.html">Home</a>
+      <span class="breadcrumb-sep">›</span>
+      <span>Carrinho</span>
+    </div>
+    <h1 class="font-cormorant text-4xl font-light mb-10">Seu Carrinho</h1>
+
+    <div class="grid md:grid-cols-[1fr_340px] gap-10">
+      <!-- ITEMS -->
+      <div>
+        <div id="cart-items"></div>
+        <div id="cart-empty" class="empty-state hidden">
+          <div class="empty-icon">🛒</div>
+          <p class="text-sm text-[#888]">Seu carrinho está vazio</p>
+          <a href="produtos.html" class="btn-primary mt-6 inline-block text-xs">Explorar Coleção</a>
+        </div>
+      </div>
+
+      <!-- SUMMARY -->
+      <div class="bg-white p-8 h-fit sticky top-28">
+        <h2 class="font-cormorant text-2xl font-light mb-6">Resumo</h2>
+        <div class="flex flex-col gap-3 mb-6">
+          <div class="flex justify-between text-xs text-[#888]">
+            <span>Subtotal</span>
+            <span id="subtotal">R$0,00</span>
+          </div>
+          <div class="flex justify-between text-xs text-[#888]">
+            <span>Frete</span>
+            <span id="frete-val">Calcular</span>
+          </div>
+          <div class="divider"></div>
+          <div class="flex justify-between font-medium">
+            <span class="text-sm tracking-wide">Total</span>
+            <span class="font-cormorant text-2xl" id="total-val">R$0,00</span>
+          </div>
+        </div>
+        <a href="checkout.html" id="checkout-btn" class="btn-wine block text-center text-xs w-full">
+          Finalizar Compra
+        </a>
+        <a href="produtos.html" class="btn-outline block text-center text-xs w-full mt-3">
+          Continuar Comprando
+        </a>
+        <!-- Coupon -->
+        <div class="mt-6">
+          <div class="flex gap-2">
+            <input type="text" placeholder="Cupom de desconto" class="form-input text-xs flex-1" id="coupon" />
+            <button onclick="applyCoupon()" class="btn-outline text-xs px-4">Aplicar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/cart.js"></script>
+  <script>
+    function renderCart() {
+      const items = Cart.get();
+      const container = document.getElementById('cart-items');
+      const empty = document.getElementById('cart-empty');
+      const checkoutBtn = document.getElementById('checkout-btn');
+
+      if (items.length === 0) {
+        container.innerHTML = '';
+        empty.classList.remove('hidden');
+        checkoutBtn.style.opacity = '0.4';
+        checkoutBtn.style.pointerEvents = 'none';
+        document.getElementById('subtotal').textContent = formatCurrency(0);
+        document.getElementById('total-val').textContent = formatCurrency(0);
+        document.getElementById('frete-val').textContent = 'Grátis';
+        return;
+      }
+
+      empty.classList.add('hidden');
+      checkoutBtn.style.opacity = '1';
+      checkoutBtn.style.pointerEvents = 'auto';
+
+      container.innerHTML = items.map(item => `
+        <div class="cart-item" id="item-${item.key}">
+          <div class="cart-item-img flex items-center justify-center text-4xl">
+            ${item.imagem_url ? `<img src="${item.imagem_url}" class="w-full h-full object-cover"/>` : '👕'}
+          </div>
+          <div>
+            <div class="text-sm font-medium mb-1">${item.nome}</div>
+            <div class="text-xs text-[#888] mb-3">Tamanho: ${item.tamanho}</div>
+            <div class="qty-control">
+              <button class="qty-btn" onclick="updateItem('${item.key}', ${item.quantidade - 1})">−</button>
+              <span class="qty-num">${item.quantidade}</span>
+              <button class="qty-btn" onclick="updateItem('${item.key}', ${item.quantidade + 1})">+</button>
+            </div>
+          </div>
+          <div class="text-right flex flex-col items-end justify-between">
+            <button onclick="removeItem('${item.key}')" class="text-[#aaa] hover:text-[#6D0F1F] transition-colors text-xs">✕</button>
+            <div class="font-cormorant text-xl">${formatCurrency(item.preco * item.quantidade)}</div>
+          </div>
+        </div>
+      `).join('');
+
+      const total = Cart.total();
+      const frete = total >= 299 ? 0 : 19.90;
+      document.getElementById('subtotal').textContent = formatCurrency(total);
+      document.getElementById('frete-val').textContent = frete === 0 ? '🎉 Grátis' : formatCurrency(frete);
+      document.getElementById('total-val').textContent = formatCurrency(total + frete);
+    }
+
+    function updateItem(key, qty) {
+      Cart.updateQty(key, qty);
+      renderCart();
+    }
+
+    function removeItem(key) {
+      const el = document.getElementById(`item-${key}`);
+      if (el) { el.style.opacity = '0'; el.style.transition = 'opacity 0.3s'; }
+      setTimeout(() => { Cart.remove(key); renderCart(); }, 300);
+    }
+
+    function applyCoupon() {
+      showToast('Cupom inválido ou expirado', 'error');
+    }
+
+    document.addEventListener('DOMContentLoaded', renderCart);
+  </script>
+  <script src="../js/back-button.js"></script>
+</body>
+
+</html>

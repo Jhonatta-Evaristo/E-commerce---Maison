@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Entrar — MAISON</title>
+  <link rel="icon" type="image/png" href="/img/logo.png">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Montserrat:wght@300;400;500;600&display=swap"
+    rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../css/main.css" />
+</head>
+
+<body>
+  <div class="auth-container">
+    <!-- LEFT PANEL -->
+    <div class="auth-left">
+      <div class="auth-left-bg"></div>
+      <div class="relative z-10">
+        <a href="index.html" class="logo-text text-2xl tracking-[0.3em] text-white">MAISON</a>
+      </div>
+      <div class="relative z-10">
+        <h2 class="font-cormorant text-5xl font-light text-white leading-tight mb-4">
+          Bem-vindo<br /><em class="italic text-[#c4384f]">de volta.</em>
+        </h2>
+        <p class="text-white/40 text-sm leading-relaxed max-w-xs">
+          Acesse sua conta para ver seus pedidos, favoritos e muito mais.
+        </p>
+      </div>
+      <div class="relative z-10 flex flex-col gap-4">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-sm">🛍️</div>
+          <span class="text-xs text-white/40 tracking-wide">+200 peças exclusivas</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-sm">🚚</div>
+          <span class="text-xs text-white/40 tracking-wide">Entrega rápida em todo Brasil</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-sm">⭐</div>
+          <span class="text-xs text-white/40 tracking-wide">Programa de fidelidade exclusivo</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="auth-right">
+      <div class="auth-form-container">
+        <div class="mb-8">
+          <h1 class="font-cormorant text-3xl font-light mb-1">Entrar</h1>
+          <p class="text-xs text-[#888]">Não tem conta? <a href="cadastro.html"
+              class="text-[#6D0F1F] hover:underline">Cadastre-se grátis</a></p>
+        </div>
+
+        <!-- Error message -->
+        <div id="error-msg" class="hidden bg-red-50 border-l-4 border-[#6D0F1F] p-4 mb-6">
+          <p class="text-xs text-[#6D0F1F]" id="error-text">Erro</p>
+        </div>
+
+        <form id="login-form" onsubmit="handleLogin(event)">
+          <div class="form-group">
+            <label class="form-label">E-mail</label>
+            <input type="email" id="email" class="form-input" placeholder="seu@email.com" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Senha</label>
+            <div class="relative">
+              <input type="password" id="senha" class="form-input pr-10" placeholder="••••••••" required />
+              <button type="button" onclick="togglePass()"
+                class="absolute right-3 top-1/2 -translate-y-1/2 text-[#aaa] hover:text-[#555] transition-colors">
+                <svg id="eye-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="1.5">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="flex justify-end mb-6">
+            <a href="#" class="text-xs text-[#888] hover:text-[#6D0F1F]">Esqueceu a senha?</a>
+          </div>
+          <button type="submit" id="submit-btn"
+            class="btn-wine w-full text-center justify-center flex items-center gap-2">
+            <span id="btn-text">Entrar</span>
+            <span id="btn-loader" class="loading-spinner hidden"></span>
+          </button>
+        </form>
+
+        <div class="mt-8 text-center">
+          <div class="divider relative">
+            <span
+              class="absolute left-1/2 -translate-x-1/2 -top-2.5 bg-[#F9F7F5] px-3 text-[10px] text-[#ccc] uppercase tracking-widest">ou</span>
+          </div>
+          <div class="mt-4">
+            <a href="admin/login.html" class="text-xs text-[#888] hover:text-[#6D0F1F]">Acessar Painel Admin →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/api.js"></script>
+  <script>
+    function togglePass() {
+      const inp = document.getElementById('senha');
+      inp.type = inp.type === 'password' ? 'text' : 'password';
+    }
+
+    async function handleLogin(e) {
+      e.preventDefault();
+      const btn = document.getElementById('submit-btn');
+      const txt = document.getElementById('btn-text');
+      const loader = document.getElementById('btn-loader');
+      const errDiv = document.getElementById('error-msg');
+      const errTxt = document.getElementById('error-text');
+
+      txt.textContent = 'Entrando...';
+      loader.classList.remove('hidden');
+      btn.disabled = true;
+      errDiv.classList.add('hidden');
+
+      try {
+        const data = await API.post('/auth/login', {
+          email: document.getElementById('email').value,
+          senha: document.getElementById('senha').value
+        }, false);
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('user', JSON.stringify(data.user));
+        if (data.user.tipo === 'admin') {
+          window.location.href = 'admin/dashboard.html';
+        } else {
+          window.location.href = 'minha-conta.html';
+        }
+      } catch (err) {
+        errTxt.textContent = err.message || 'Email ou senha incorretos.';
+        errDiv.classList.remove('hidden');
+        txt.textContent = 'Entrar';
+        loader.classList.add('hidden');
+        btn.disabled = false;
+      }
+    }
+  </script>
+  <script src="../js/back-button.js"></script>
+</body>
+
+</html>

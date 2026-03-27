@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — MAISON Admin</title>
+  <link rel="icon" type="image/png" href="/img/logo.png">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Montserrat:wght@300;400;500;600&display=swap"
+    rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="../../css/main.css" />
+</head>
+
+<body class="bg-[#f4f2ef]">
+  <!-- MOBILE NAV -->
+  <div class="admin-mobile-nav">
+    <div class="logo-text text-base tracking-[0.3em] text-white">MAISON</div>
+    <button class="admin-hamburger" onclick="toggleMobileMenu()">
+      <svg id="menu-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="1.5">
+        <line x1="3" y1="6" x2="21" y2="6" />
+        <line x1="3" y1="12" x2="21" y2="12" />
+        <line x1="3" y1="18" x2="21" y2="18" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- MOBILE MENU -->
+  <div class="admin-mobile-menu" id="mobile-admin-menu">
+    <button class="admin-nav-item" onclick="showSection('dashboard');closeMobileMenu()"><span>📊</span>
+      Dashboard</button>
+    <button class="admin-nav-item" onclick="showSection('produtos');closeMobileMenu()"><span>👗</span> Produtos</button>
+    <button class="admin-nav-item" onclick="showSection('pedidos');closeMobileMenu()"><span>📦</span> Pedidos</button>
+    <button class="admin-nav-item" onclick="showSection('clientes');closeMobileMenu()"><span>👥</span> Clientes</button>
+    <div style="height:1px;background:rgba(255,255,255,0.05);margin:8px 0"></div>
+    <a href="../index.html" class="admin-nav-item"><span>🛍️</span> Ver Loja</a>
+    <button class="admin-nav-item" onclick="logout()"><span>🚪</span> Sair</button>
+  </div>
+
+  <div class="admin-layout">
+    <!-- SIDEBAR -->
+    <aside class="admin-sidebar">
+      <div class="p-6 border-b border-white/5">
+        <div class="logo-text text-lg tracking-[0.3em] text-white">MAISON</div>
+        <div class="text-[10px] text-white/25 tracking-widest uppercase mt-1">Admin Panel</div>
+      </div>
+      <nav class="py-4">
+        <div class="px-4 mb-2 text-[9px] tracking-[0.3em] uppercase text-white/20 font-medium pt-2">Principal</div>
+        <button class="admin-nav-item active" onclick="showSection('dashboard')">
+          <span>📊</span> Dashboard
+        </button>
+        <button class="admin-nav-item" onclick="showSection('produtos')">
+          <span>👗</span> Produtos
+        </button>
+        <button class="admin-nav-item" onclick="showSection('pedidos')">
+          <span>📦</span> Pedidos
+        </button>
+        <button class="admin-nav-item" onclick="showSection('clientes')">
+          <span>👥</span> Clientes
+        </button>
+        <div class="px-4 mb-2 mt-4 text-[9px] tracking-[0.3em] uppercase text-white/20 font-medium">Sistema</div>
+        <a href="../index.html" class="admin-nav-item">
+          <span>🛍️</span> Ver Loja
+        </a>
+        <button class="admin-nav-item" onclick="logout()">
+          <span>🚪</span> Sair
+        </button>
+      </nav>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="admin-main overflow-y-auto">
+      <!-- HEADER -->
+      <div class="flex items-center justify-between mb-8">
+        <div>
+          <h1 class="font-cormorant text-3xl font-light" id="page-title">Dashboard</h1>
+          <p class="text-xs text-[#888] mt-1" id="page-sub">Visão geral do negócio</p>
+        </div>
+        <div class="flex items-center gap-3">
+          <div class="text-right hidden md:block">
+            <div class="text-xs font-medium" id="admin-name">Admin</div>
+            <div class="text-[10px] text-[#888]">Administrador</div>
+          </div>
+          <div class="w-8 h-8 bg-[#6D0F1F] rounded-full flex items-center justify-center text-white text-xs font-bold">A
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== DASHBOARD ===== -->
+      <div id="section-dashboard">
+        <!-- Stats -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+          <div class="stat-card-admin">
+            <div class="stat-label mb-2">Vendas Totais</div>
+            <div class="stat-value" id="stat-receita">—</div>
+            <div class="text-xs text-green-500 mt-2">↑ 12% este mês</div>
+          </div>
+          <div class="stat-card-admin">
+            <div class="stat-label mb-2">Pedidos</div>
+            <div class="stat-value" id="stat-pedidos">—</div>
+            <div class="text-xs text-green-500 mt-2">↑ 8% este mês</div>
+          </div>
+          <div class="stat-card-admin">
+            <div class="stat-label mb-2">Clientes</div>
+            <div class="stat-value" id="stat-clientes">—</div>
+            <div class="text-xs text-blue-500 mt-2">+14 este mês</div>
+          </div>
+          <div class="stat-card-admin">
+            <div class="stat-label mb-2">Ticket Médio</div>
+            <div class="stat-value" id="stat-ticket">—</div>
+            <div class="text-xs text-[#888] mt-2">→ estável</div>
+          </div>
+        </div>
+
+        <!-- Chart + Recent Orders -->
+        <div class="grid md:grid-cols-2 gap-6 mb-6">
+          <div class="bg-white p-6 rounded-sm">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-xs tracking-[0.2em] uppercase font-medium">Vendas — Últimos 7 dias</h3>
+            </div>
+            <canvas id="salesChart" height="200"></canvas>
+          </div>
+          <div class="bg-white p-6 rounded-sm">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-xs tracking-[0.2em] uppercase font-medium">Categorias</h3>
+            </div>
+            <canvas id="catChart" height="200"></canvas>
+          </div>
+        </div>
+
+        <!-- Recent Orders -->
+        <div class="bg-white rounded-sm overflow-hidden">
+          <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+            <h3 class="text-xs tracking-[0.2em] uppercase font-medium">Pedidos Recentes</h3>
+            <button onclick="showSection('pedidos')" class="text-xs text-[#6D0F1F] hover:underline">Ver todos</button>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Pedido</th>
+                  <th>Cliente</th>
+                  <th>Total</th>
+                  <th>Status</th>
+                  <th>Data</th>
+                </tr>
+              </thead>
+              <tbody id="recent-orders-tbody">
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== PRODUTOS ===== -->
+      <div id="section-produtos" class="hidden">
+        <div class="flex items-center justify-between mb-6">
+          <div></div>
+          <button onclick="openProductModal()" class="btn-wine text-xs flex items-center gap-2">
+            + Novo Produto
+          </button>
+        </div>
+        <div class="bg-white rounded-sm overflow-hidden">
+          <div class="px-6 py-4 border-b border-gray-100 flex flex-col md:flex-row gap-3 items-start md:items-center">
+            <input type="text" placeholder="Buscar produtos..." class="form-input text-xs w-full md:w-64"
+              id="prod-search" oninput="filterProducts()" />
+            <select class="form-select text-xs w-full md:w-40" id="prod-cat-filter" onchange="filterProducts()">
+              <option value="">Todas as categorias</option>
+              <option value="camisetas">Camisetas</option>
+              <option value="calcas">Calças</option>
+              <option value="moletons">Moletons</option>
+              <option value="acessorios">Acessórios</option>
+            </select>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="admin-table" id="prod-table">
+              <thead>
+                <tr>
+                  <th>Produto</th>
+                  <th>Categoria</th>
+                  <th>Preço</th>
+                  <th>Estoque</th>
+                  <th>Destaque</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody id="prod-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== PEDIDOS ===== -->
+      <div id="section-pedidos" class="hidden">
+        <div class="bg-white rounded-sm overflow-hidden">
+          <div class="px-6 py-4 border-b border-gray-100 flex gap-2 flex-wrap">
+            <button class="filter-btn active" data-status="" onclick="filterOrders(this)">Todos</button>
+            <button class="filter-btn" data-status="pendente" onclick="filterOrders(this)">Pendente</button>
+            <button class="filter-btn" data-status="pago" onclick="filterOrders(this)">Pago</button>
+            <button class="filter-btn" data-status="enviado" onclick="filterOrders(this)">Enviado</button>
+            <button class="filter-btn" data-status="entregue" onclick="filterOrders(this)">Entregue</button>
+          </div>
+          <div class="overflow-x-auto" style="max-width: 100%;">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Pedido</th>
+                  <th>Cliente</th>
+                  <th>Total</th>
+                  <th>Pagamento</th>
+                  <th>Status</th>
+                  <th>Data</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody id="orders-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== CLIENTES ===== -->
+      <div id="section-clientes" class="hidden">
+        <div class="bg-white rounded-sm overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Cliente</th>
+                  <th>Email</th>
+                  <th>Pedidos</th>
+                  <th>Total Gasto</th>
+                  <th>Cadastro</th>
+                </tr>
+              </thead>
+              <tbody id="clients-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- PRODUCT MODAL -->
+  <div id="product-modal" class="modal-overlay hidden" onclick="closeModalOutside(event)">
+    <div class="modal-box">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="font-cormorant text-2xl font-light" id="modal-title">Novo Produto</h2>
+        <button onclick="closeModal()" class="text-[#888] hover:text-[#1a1a1a]">✕</button>
+      </div>
+      <form id="product-form" onsubmit="saveProduct(event)">
+        <div class="grid grid-cols-2 gap-4">
+          <div class="form-group col-span-2">
+            <label class="form-label">Nome do Produto</label>
+            <input type="text" id="p-nome" class="form-input" placeholder="Ex: Camiseta Essencial" required />
+          </div>
+          <div class="form-group col-span-2">
+            <label class="form-label">Descrição</label>
+            <textarea id="p-desc" class="form-input h-20 resize-none" placeholder="Descreva o produto..."></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Preço (R$)</label>
+            <input type="number" id="p-preco" class="form-input" placeholder="0,00" step="0.01" min="0" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Estoque</label>
+            <input type="number" id="p-estoque" class="form-input" placeholder="0" min="0" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Categoria</label>
+            <select id="p-cat" class="form-select">
+              <option value="camisetas">Camisetas</option>
+              <option value="calcas">Calças</option>
+              <option value="moletons">Moletons</option>
+              <option value="acessorios">Acessórios</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Cor</label>
+            <input type="text" id="p-cor" class="form-input" placeholder="Preto, Branco..." />
+          </div>
+          <div class="form-group col-span-2">
+            <label class="form-label">URL da Imagem</label>
+            <input type="text" id="p-img" class="form-input" placeholder="https://..." />
+          </div>
+          <div class="form-group col-span-2 flex items-center gap-3">
+            <input type="checkbox" id="p-destaque" class="w-4 h-4 accent-[#6D0F1F]" />
+            <label for="p-destaque" class="text-xs font-medium">Produto em Destaque</label>
+          </div>
+        </div>
+        <div class="flex gap-3 mt-2">
+          <button type="button" onclick="closeModal()" class="btn-outline flex-1 text-xs">Cancelar</button>
+          <button type="submit" class="btn-wine flex-1 text-xs flex items-center justify-center gap-2">
+            <span id="save-txt">Salvar Produto</span>
+            <span id="save-loader" class="loading-spinner hidden"></span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="../../js/api.js"></script>
+  <script src="../js/dashboard.js"></script>
+</body>
+
+</html>

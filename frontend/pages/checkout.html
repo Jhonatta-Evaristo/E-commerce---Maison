@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checkout — MAISON</title>
+  <link rel="icon" type="image/png" href="/img/logo.png">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Montserrat:wght@300;400;500;600&display=swap"
+    rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../css/main.css" />
+</head>
+
+<body class="bg-[#F9F7F5]">
+
+  <nav class="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-100 py-4">
+    <div class="max-w-5xl mx-auto px-6 flex items-center justify-between">
+      <a href="index.html" class="logo-text text-xl tracking-[0.3em] text-[#1a1a1a]">MAISON</a>
+      <!-- Steps -->
+      <div class="hidden md:flex items-center gap-2">
+        <div class="step-item active flex items-center gap-2">
+          <div
+            class="w-6 h-6 rounded-full bg-[#1a1a1a] text-white text-[10px] flex items-center justify-center font-medium">
+            1</div>
+          <span class="text-[10px] tracking-widest uppercase text-[#1a1a1a]">Entrega</span>
+        </div>
+        <div class="w-8 h-px bg-gray-200"></div>
+        <div class="step-item flex items-center gap-2">
+          <div
+            class="w-6 h-6 rounded-full bg-gray-200 text-[#888] text-[10px] flex items-center justify-center font-medium"
+            id="step2-circle">2</div>
+          <span class="text-[10px] tracking-widest uppercase text-[#888]" id="step2-label">Pagamento</span>
+        </div>
+        <div class="w-8 h-px bg-gray-200"></div>
+        <div class="step-item flex items-center gap-2">
+          <div
+            class="w-6 h-6 rounded-full bg-gray-200 text-[#888] text-[10px] flex items-center justify-center font-medium">
+            3</div>
+          <span class="text-[10px] tracking-widest uppercase text-[#888]">Confirmação</span>
+        </div>
+      </div>
+      <a href="carrinho.html" class="text-xs text-[#888] hover:text-[#6D0F1F]">← Carrinho</a>
+    </div>
+  </nav>
+
+  <div class="max-w-5xl mx-auto px-6 pt-24 pb-20">
+    <div class="grid md:grid-cols-[1fr_340px] gap-10">
+
+      <!-- LEFT: FORM STEPS -->
+      <div>
+        <!-- STEP 1: DELIVERY -->
+        <div id="step-1">
+          <h2 class="font-cormorant text-2xl font-light mb-6">Endereço de Entrega</h2>
+          <div class="grid grid-cols-2 gap-4">
+            <div class="form-group col-span-2">
+              <label class="form-label">Nome Completo</label>
+              <input type="text" id="nome" class="form-input" placeholder="Seu nome" required />
+            </div>
+            <div class="form-group col-span-2">
+              <label class="form-label">E-mail</label>
+              <input type="email" id="email" class="form-input" placeholder="seu@email.com" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">CEP</label>
+              <input type="text" id="cep" class="form-input" placeholder="00000-000" maxlength="9"
+                oninput="maskCep(this)" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Telefone</label>
+              <input type="text" id="telefone" class="form-input" placeholder="(11) 99999-9999" />
+            </div>
+            <div class="form-group col-span-2">
+              <label class="form-label">Endereço</label>
+              <input type="text" id="endereco" class="form-input" placeholder="Rua, número, complemento" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Cidade</label>
+              <input type="text" id="cidade" class="form-input" placeholder="São Paulo" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Estado</label>
+              <select id="estado" class="form-select">
+                <option>SP</option>
+                <option>RJ</option>
+                <option>MG</option>
+                <option>BA</option>
+                <option>PR</option>
+                <option>RS</option>
+                <option>SC</option>
+                <option>DF</option>
+                <option>GO</option>
+                <option>PE</option>
+                <option>CE</option>
+                <option>AM</option>
+              </select>
+            </div>
+          </div>
+          <button onclick="goToStep2()" class="btn-wine mt-4">Continuar para Pagamento →</button>
+        </div>
+
+        <!-- STEP 2: PAYMENT -->
+        <div id="step-2" class="hidden">
+          <h2 class="font-cormorant text-2xl font-light mb-6">Forma de Pagamento</h2>
+          <div class="flex flex-col gap-4 mb-8">
+            <div class="payment-card selected" id="pix-card" onclick="selectPayment('pix')">
+              <div class="text-2xl">💸</div>
+              <div>
+                <div class="text-sm font-medium">Pix</div>
+                <div class="text-xs text-[#888]">Aprovação imediata · 5% de desconto</div>
+              </div>
+            </div>
+            <div class="payment-card" id="cartao-card" onclick="selectPayment('cartao')">
+              <div class="text-2xl">💳</div>
+              <div>
+                <div class="text-sm font-medium">Cartão de Crédito</div>
+                <div class="text-xs text-[#888]">Parcelamento em até 6x sem juros</div>
+              </div>
+            </div>
+            <div class="payment-card" id="boleto-card" onclick="selectPayment('boleto')">
+              <div class="text-2xl">📄</div>
+              <div>
+                <div class="text-sm font-medium">Boleto Bancário</div>
+                <div class="text-xs text-[#888]">Vencimento em 3 dias úteis</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD FORM -->
+          <div id="cartao-form" class="hidden">
+            <div class="grid grid-cols-2 gap-4">
+              <div class="form-group col-span-2">
+                <label class="form-label">Número do Cartão</label>
+                <input type="text" class="form-input" placeholder="0000 0000 0000 0000" maxlength="19"
+                  oninput="maskCard(this)" />
+              </div>
+              <div class="form-group col-span-2">
+                <label class="form-label">Nome no Cartão</label>
+                <input type="text" class="form-input" placeholder="NOME SOBRENOME" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Validade</label>
+                <input type="text" class="form-input" placeholder="MM/AA" maxlength="5" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">CVV</label>
+                <input type="text" class="form-input" placeholder="123" maxlength="3" />
+              </div>
+              <div class="form-group col-span-2">
+                <label class="form-label">Parcelas</label>
+                <select class="form-select">
+                  <option>1x de R$0,00 (à vista)</option>
+                  <option>2x de R$0,00 sem juros</option>
+                  <option>3x de R$0,00 sem juros</option>
+                  <option>6x de R$0,00 sem juros</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex gap-3">
+            <button onclick="goToStep1()" class="btn-outline">← Voltar</button>
+            <button onclick="placeOrder()" id="order-btn" class="btn-wine flex items-center gap-2">
+              <span id="order-btn-text">Confirmar Pedido</span>
+              <span id="order-btn-loader" class="loading-spinner hidden"></span>
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 3: SUCCESS -->
+        <div id="step-3" class="hidden text-center py-12">
+          <div class="text-6xl mb-6">🎉</div>
+          <h2 class="font-cormorant text-4xl font-light mb-3">Pedido Realizado!</h2>
+          <p class="text-sm text-[#888] mb-2">Pedido <strong id="order-id">#00000</strong></p>
+          <p class="text-xs text-[#888] mb-8">Você receberá um email de confirmação em breve.</p>
+          <a href="index.html" class="btn-wine inline-block">Continuar Comprando</a>
+        </div>
+      </div>
+
+      <!-- RIGHT: ORDER SUMMARY -->
+      <div class="bg-white p-8 h-fit sticky top-24">
+        <h3 class="font-cormorant text-xl font-light mb-5">Resumo do Pedido</h3>
+        <div id="summary-items" class="flex flex-col gap-3 mb-5 max-h-56 overflow-y-auto"></div>
+        <div class="divider"></div>
+        <div class="flex flex-col gap-2 mt-4">
+          <div class="flex justify-between text-xs text-[#888]">
+            <span>Subtotal</span>
+            <span id="sum-subtotal">R$0,00</span>
+          </div>
+          <div class="flex justify-between text-xs text-[#888]">
+            <span>Frete</span>
+            <span id="sum-frete">—</span>
+          </div>
+          <div class="flex justify-between text-xs text-[#888] hidden" id="discount-row">
+            <span>Desconto Pix (5%)</span>
+            <span id="sum-discount" class="text-green-600">—</span>
+          </div>
+          <div class="divider"></div>
+          <div class="flex justify-between font-medium">
+            <span class="text-sm">Total</span>
+            <span class="font-cormorant text-2xl" id="sum-total">R$0,00</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/cart.js"></script>
+  <script>
+    let payMethod = 'pix';
+    function selectPayment(m) {
+      payMethod = m;
+      ['pix', 'cartao', 'boleto'].forEach(x => {
+        document.getElementById(`${x}-card`).classList.toggle('selected', x === m);
+      });
+      document.getElementById('cartao-form').classList.toggle('hidden', m !== 'cartao');
+      updateSummary();
+    }
+    function maskCep(el) { el.value = el.value.replace(/\D/g, '').replace(/(\d{5})(\d)/, '$1-$2'); }
+    function maskCard(el) { el.value = el.value.replace(/\D/g, '').replace(/(\d{4})(?=\d)/g, '$1 ').trim(); }
+    function goToStep1() {
+      document.getElementById('step-1').classList.remove('hidden');
+      document.getElementById('step-2').classList.add('hidden');
+    }
+    function goToStep2() {
+      const nome = document.getElementById('nome').value;
+      const email = document.getElementById('email').value;
+      const end = document.getElementById('endereco').value;
+      if (!nome || !email || !end) { showToast('Preencha todos os campos obrigatórios', 'error'); return; }
+      document.getElementById('step-1').classList.add('hidden');
+      document.getElementById('step-2').classList.remove('hidden');
+      document.getElementById('step2-circle').classList.add('bg-[#1a1a1a]', 'text-white');
+      document.getElementById('step2-circle').classList.remove('bg-gray-200', 'text-[#888]');
+    }
+    async function placeOrder() {
+      const btn = document.getElementById('order-btn');
+      const txt = document.getElementById('order-btn-text');
+      const loader = document.getElementById('order-btn-loader');
+      btn.disabled = true;
+      txt.textContent = 'Processando...';
+      loader.classList.remove('hidden');
+      await new Promise(r => setTimeout(r, 1800));
+      try {
+        const items = Cart.get();
+        const total = Cart.total();
+        const payload = {
+          items,
+          total: payMethod === 'pix' ? total * 0.95 : total,
+          endereco: `${document.getElementById('endereco').value}, ${document.getElementById('cidade').value} - ${document.getElementById('estado').value}`,
+          metodo_pagamento: payMethod
+        };
+        const data = await API.post('/pedidos', payload);
+        const orderId = data.pedido?.id || Math.floor(Math.random() * 90000 + 10000);
+        finishOrder(orderId);
+      } catch {
+        const orderId = Math.floor(Math.random() * 90000 + 10000);
+        finishOrder(orderId);
+      }
+    }
+    function finishOrder(orderId) {
+      Cart.clear();
+      document.getElementById('step-2').classList.add('hidden');
+      document.getElementById('step-3').classList.remove('hidden');
+      document.getElementById('order-id').textContent = `#${orderId}`;
+      Cart.updateCount();
+    }
+    function updateSummary() {
+      const items = Cart.get();
+      const subtotal = Cart.total();
+      const frete = subtotal >= 299 ? 0 : 19.90;
+      const discount = payMethod === 'pix' ? subtotal * 0.05 : 0;
+      const total = subtotal + frete - discount;
+      document.getElementById('sum-subtotal').textContent = formatCurrency(subtotal);
+      document.getElementById('sum-frete').textContent = frete === 0 ? 'Grátis' : formatCurrency(frete);
+      document.getElementById('sum-total').textContent = formatCurrency(total);
+      const discRow = document.getElementById('discount-row');
+      discRow.classList.toggle('hidden', payMethod !== 'pix');
+      if (discount > 0) document.getElementById('sum-discount').textContent = `-${formatCurrency(discount)}`;
+      document.getElementById('summary-items').innerHTML = items.map(i => `
+        <div class="flex justify-between items-start gap-2">
+          <div>
+            <div class="text-xs font-medium">${i.nome}</div>
+            <div class="text-[10px] text-[#888]">Tam: ${i.tamanho} · Qtd: ${i.quantidade}</div>
+          </div>
+          <div class="text-xs font-cormorant text-base">${formatCurrency(i.preco * i.quantidade)}</div>
+        </div>
+      `).join('') || '<p class="text-xs text-[#888]">Carrinho vazio</p>';
+    }
+    document.addEventListener('DOMContentLoaded', updateSummary);
+  </script>
+  <script src="../js/back-button.js"></script>
+</body>
+
+</html>

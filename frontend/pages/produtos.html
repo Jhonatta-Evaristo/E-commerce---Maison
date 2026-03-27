@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Coleção — MAISON</title>
+  <link rel="icon" type="image/png" href="/img/logo.png">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Montserrat:wght@300;400;500;600&display=swap"
+    rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/css/main.css" />
+</head>
+
+<body class="bg-[#F9F7F5]">
+
+  <!-- NAV -->
+  <nav class="navbar-scrolled fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <a href="index.html" class="logo-text text-2xl tracking-[0.3em] text-[#1a1a1a] font-light">MAISON</a>
+      <div class="flex items-center gap-5">
+        <div class="flex items-center gap-5">
+          <div id="nav-auth">
+            <a href="login.html" class="text-xs tracking-[0.15em] uppercase text-[#555] hover:text-[#6D0F1F]">Entrar</a>
+          </div>
+          <button onclick="history.back()"
+            class="flex items-center gap-1.5 text-xs tracking-[0.15em] uppercase text-[#555] hover:text-[#6D0F1F] transition-colors">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M19 12H5M5 12l7 7M5 12l7-7" />
+            </svg>
+            Voltar
+          </button>
+          <a href="carrinho.html" class="relative">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+              <line x1="3" y1="6" x2="21" y2="6" />
+              <path d="M16 10a4 4 0 01-8 0" />
+            </svg>
+            <span id="cart-count"
+              class="absolute -top-2 -right-2 w-4 h-4 bg-[#6D0F1F] text-white text-[9px] rounded-full flex items-center justify-center font-medium">0</span>
+          </a>
+        </div>
+      </div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <div class="pt-24 pb-10 bg-white border-b border-gray-100">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="breadcrumb mb-4">
+        <a href="index.html">Home</a>
+        <span class="breadcrumb-sep">›</span>
+        <span>Coleção</span>
+      </div>
+      <h1 class="font-cormorant text-4xl md:text-5xl font-light">Coleção Completa</h1>
+      <p class="text-sm text-[#888] mt-2" id="result-count">Carregando produtos...</p>
+    </div>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-6 py-10">
+    <!-- FILTERS ROW -->
+    <div class="flex flex-col md:flex-row gap-4 items-start md:items-center justify-between mb-8">
+      <!-- Search -->
+      <div class="relative w-full md:w-72">
+        <input type="text" id="search" placeholder="Buscar produtos..." class="form-input pl-10 text-sm" />
+        <svg class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" width="16" height="16" viewBox="0 0 24 24"
+          fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8" />
+          <line x1="21" y1="21" x2="16.65" y2="16.65" />
+        </svg>
+      </div>
+      <!-- Categories -->
+      <div class="flex flex-wrap gap-2" id="cat-filters">
+        <button class="filter-btn active" data-cat="">Todos</button>
+        <button class="filter-btn" data-cat="camisetas">Camisetas</button>
+        <button class="filter-btn" data-cat="calcas">Calças</button>
+        <button class="filter-btn" data-cat="vestidos">Vestidos</button>
+        <button class="filter-btn" data-cat="acessorios">Acessórios</button>
+      </div>
+      <!-- Sort -->
+      <select class="form-select w-full md:w-48 text-xs" id="sort-select">
+        <option value="">Ordenar por</option>
+        <option value="preco_asc">Menor Preço</option>
+        <option value="preco_desc">Maior Preço</option>
+        <option value="nome_asc">Nome A–Z</option>
+      </select>
+    </div>
+
+    <!-- GRID -->
+    <div id="products-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div class="product-skeleton col-span-1"></div>
+      <div class="product-skeleton col-span-1"></div>
+      <div class="product-skeleton col-span-1"></div>
+      <div class="product-skeleton col-span-1"></div>
+      <div class="product-skeleton col-span-1"></div>
+      <div class="product-skeleton col-span-1"></div>
+      <div class="product-skeleton col-span-1"></div>
+      <div class="product-skeleton col-span-1"></div>
+    </div>
+
+    <!-- EMPTY STATE -->
+    <div id="empty-state" class="empty-state hidden">
+      <div class="empty-icon">🔍</div>
+      <p class="text-sm text-[#888] tracking-wide">Nenhum produto encontrado</p>
+      <button onclick="resetFilters()" class="btn-outline mt-6 text-xs">Limpar filtros</button>
+    </div>
+  </div>
+
+  <!-- FOOTER simplified -->
+  <footer class="bg-[#1a1a1a] text-white py-10 mt-16">
+    <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
+      <div class="logo-text text-xl tracking-[0.3em]">MAISON</div>
+      <p class="text-xs text-white/30">© 2025 MAISON. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/cart.js"></script>
+  <script src="/js/produtos.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const user = getUser();
+      const navAuth = document.getElementById('nav-auth');
+      if (user) {
+        navAuth.innerHTML = `<a href="minha-conta.html" class="text-xs tracking-[0.15em] uppercase text-[#555] hover:text-[#6D0F1F]">${user.nome.split(' ')[0]}</a>`;
+      }
+    });
+  </script>
+  <script src="../js/back-button.js"></script>
+</body>
+
+</html>

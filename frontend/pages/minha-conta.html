@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Minha Conta — MAISON</title>
+  <link rel="icon" type="image/png" href="/img/logo.png">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Montserrat:wght@300;400;500;600&display=swap"
+    rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../css/main.css" />
+</head>
+
+<body class="bg-[#F9F7F5]">
+  <nav class="navbar-scrolled fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <a href="index.html" class="logo-text text-2xl tracking-[0.3em] text-[#1a1a1a]">MAISON</a>
+      <div class="flex items-center gap-5">
+        <a href="produtos.html" class="text-xs tracking-[0.2em] uppercase text-[#555] hover:text-[#6D0F1F]">Coleção</a>
+        <button onclick="history.back()"
+          class="flex items-center gap-1.5 text-xs tracking-[0.15em] uppercase text-[#555] hover:text-[#6D0F1F] transition-colors">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M19 12H5M5 12l7 7M5 12l7-7" />
+          </svg>
+          Voltar
+        </button>
+        <a href="carrinho.html" class="relative">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <path d="M16 10a4 4 0 01-8 0" />
+          </svg>
+          <span id="cart-count"
+            class="absolute -top-2 -right-2 w-4 h-4 bg-[#6D0F1F] text-white text-[9px] rounded-full flex items-center justify-center">0</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="max-w-5xl mx-auto px-6 pt-28 pb-20">
+    <div class="grid md:grid-cols-[240px_1fr] gap-8">
+      <!-- SIDEBAR -->
+      <div>
+        <div class="bg-white p-6 mb-4">
+          <div
+            class="w-14 h-14 bg-[#6D0F1F] rounded-full flex items-center justify-center text-white text-xl font-light mb-3"
+            id="user-avatar">?</div>
+          <div class="font-medium text-sm" id="user-name">Carregando...</div>
+          <div class="text-xs text-[#888] mt-1" id="user-email">...</div>
+        </div>
+        <div class="bg-white overflow-hidden">
+          <button onclick="showTab('pedidos')" class="admin-nav-item active w-full text-left text-[#1a1a1a]">
+            📦 Meus Pedidos
+          </button>
+          <button onclick="showTab('dados')" class="admin-nav-item w-full text-left text-[#1a1a1a]">
+            👤 Meus Dados
+          </button>
+          <button onclick="logout()" class="admin-nav-item w-full text-left text-[#1a1a1a]">
+            🚪 Sair
+          </button>
+        </div>
+      </div>
+
+      <!-- CONTENT -->
+      <div>
+        <!-- PEDIDOS -->
+        <div id="tab-pedidos">
+          <h2 class="font-cormorant text-3xl font-light mb-6">Meus Pedidos</h2>
+          <div id="pedidos-list">
+            <div class="text-center py-12 text-[#888] text-sm">Carregando pedidos...</div>
+          </div>
+        </div>
+
+        <!-- DADOS -->
+        <div id="tab-dados" class="hidden">
+          <h2 class="font-cormorant text-3xl font-light mb-6">Meus Dados</h2>
+          <div class="bg-white p-8">
+            <div class="grid grid-cols-2 gap-4">
+              <div class="form-group col-span-2 md:col-span-1">
+                <label class="form-label">Nome</label>
+                <input type="text" id="edit-nome" class="form-input" />
+              </div>
+              <div class="form-group col-span-2 md:col-span-1">
+                <label class="form-label">E-mail</label>
+                <input type="email" id="edit-email" class="form-input" readonly class="opacity-60" />
+              </div>
+            </div>
+            <button class="btn-wine text-xs mt-2">Salvar Alterações</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .admin-nav-item {
+      color: #555 !important;
+    }
+
+    .admin-nav-item:hover {
+      background: #faf8f6 !important;
+      color: #1a1a1a !important;
+    }
+
+    .admin-nav-item.active {
+      border-left: 2px solid #6D0F1F;
+      background: #fdf0f2 !important;
+      color: #6D0F1F !important;
+    }
+  </style>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/cart.js"></script>
+  <script>
+    const MOCK_PEDIDOS = [
+      { id: '10042', total: 289, status: 'pago', metodo_pagamento: 'pix', data_criacao: '2025-03-23', itens: [{ nome: 'Moletom Velvet', quantidade: 1, preco: 289 }] },
+      { id: '10038', total: 298, status: 'entregue', metodo_pagamento: 'cartao', data_criacao: '2025-03-10', itens: [{ nome: 'Camiseta Essencial', quantidade: 2, preco: 129 }, { nome: 'Cinto Artesanal', quantidade: 1, preco: 89 }] },
+    ];
+
+    function showTab(tab) {
+      ['pedidos', 'dados'].forEach(t => document.getElementById(`tab-${t}`).classList.toggle('hidden', t !== tab));
+      document.querySelectorAll('.admin-nav-item').forEach(b => b.classList.remove('active'));
+      event.currentTarget.classList.add('active');
+    }
+
+    function renderPedidos(list) {
+      const el = document.getElementById('pedidos-list');
+      if (!list.length) {
+        el.innerHTML = `<div class="empty-state"><div class="empty-icon">📦</div><p class="text-sm text-[#888]">Nenhum pedido ainda</p><a href="produtos.html" class="btn-primary mt-4 inline-block text-xs">Comprar agora</a></div>`;
+        return;
+      }
+      el.innerHTML = list.map(p => `
+        <div class="bg-white p-6 mb-4">
+          <div class="flex items-start justify-between mb-4">
+            <div>
+              <div class="text-xs text-[#888] mb-1">Pedido #${p.id}</div>
+              <div class="text-xs text-[#888]">${new Date(p.data_criacao).toLocaleDateString('pt-BR')}</div>
+            </div>
+            <div class="text-right">
+              <span class="badge badge-${p.status}">${p.status}</span>
+              <div class="font-cormorant text-xl mt-1">${formatCurrency(p.total)}</div>
+            </div>
+          </div>
+          <div class="border-t border-gray-100 pt-4">
+            ${(p.itens || []).map(i => `
+              <div class="flex justify-between text-xs text-[#666] py-1">
+                <span>${i.nome} × ${i.quantidade}</span>
+                <span>${formatCurrency(i.preco * i.quantidade)}</span>
+              </div>
+            `).join('')}
+          </div>
+          <div class="mt-3 text-xs text-[#888]">Pagamento: <span class="capitalize">${p.metodo_pagamento}</span></div>
+        </div>
+      `).join('');
+    }
+
+    async function init() {
+      const user = getUser();
+      if (!user) { window.location.href = 'login.html'; return; }
+
+      document.getElementById('user-avatar').textContent = user.nome?.charAt(0)?.toUpperCase() || '?';
+      document.getElementById('user-name').textContent = user.nome;
+      document.getElementById('user-email').textContent = user.email;
+      document.getElementById('edit-nome').value = user.nome;
+      document.getElementById('edit-email').value = user.email;
+
+      try {
+        const data = await API.get('/pedidos/me');
+        renderPedidos(data.pedidos || []);
+      } catch {
+        renderPedidos(MOCK_PEDIDOS);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
+  <script src="../js/back-button.js"></script>
+</body>
+
+</html>
