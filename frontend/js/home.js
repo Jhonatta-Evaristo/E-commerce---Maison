@@ -1,8 +1,8 @@
-const MOCK_PRODUCTS = [ //Se for alterar, tem que ser no banco
-  { id: 13, nome: 'Calça Baggy', preco: 129, categoria: 'calca', imagem_url: '../img/produtos/baggy.jpg', destaque: true },
-  { id: 2, nome: 'Vestido Midi', preco: 289, categoria: 'vestidos', imagem_url: '../img/produtos/midi.jpg', destaque: true },
-  { id: 7, nome: 'Camiseta Slim', preco: 159, categoria: 'camisetas', imagem_url: '../img/produtos/slim.jpg', destaque: true },
-  { id: 11, nome: 'Vestido Longo', preco: 319, categoria: 'vestidos', imagem_url: '../img/produtos/longo.jpg', destaque: true },
+const MOCK_PRODUCTS = [
+  { id: 13, nome: 'Vestido Midi', preco: 289, categoria: 'vestidos', imagem_url: '../img/produtos/midi.jpg', destaque: true },
+  { id: 14, nome: 'Camiseta Slim', preco: 159, categoria: 'camisetas', imagem_url: '../img/produtos/slim.jpg', destaque: true },
+  { id: 15, nome: 'Vestido Longo', preco: 319, categoria: 'vestidos', imagem_url: '../img/produtos/longo.jpg', destaque: true },
+  { id: 16, nome: 'Calça Baggy', preco: 129, categoria: 'calca', imagem_url: '../img/produtos/baggy.jpg', destaque: true },
 ];
 
 // Guarda os produtos carregados (API ou mock) para o quickAdd funcionar

@@ -49,14 +49,23 @@ function addToCart() {
 async function loadProduct() {
     const id = new URLSearchParams(window.location.search).get('id');
     if (!id) { window.location.href = 'produtos.html'; return; }
-    product = MOCK[id] || MOCK[1];
+
+    try {
+        // Busca da API primeiro
+        const data = await API.get(`/produtos/${id}`, false);
+        product = data.produto || data;
+    } catch (error) {
+        // Se falhar, cai no MOCK
+        product = MOCK[id] || MOCK[1];
+    }
+
     document.getElementById('breadcrumb-name').textContent = product.nome;
     document.getElementById('product-name').textContent = product.nome;
     document.getElementById('product-cat').textContent = product.categoria;
     document.getElementById('product-price').textContent = formatCurrency(product.preco);
     document.getElementById('product-desc').textContent = product.descricao || 'Produto de alta qualidade com acabamento premium.';
-    const mainImg = document.getElementById('main-img');
 
+    const mainImg = document.getElementById('main-img');
     if (product.imagem_url) {
         mainImg.innerHTML = `<img src="${product.imagem_url}" style="width:100%;height:100%;object-fit:cover;" />`;
     } else {
