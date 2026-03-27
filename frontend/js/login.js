@@ -1,36 +1,37 @@
-async function handleAdminLogin(e) {
+function togglePass() {
+    const inp = document.getElementById('senha');
+    inp.type = inp.type === 'password' ? 'text' : 'password';
+}
+
+async function handleLogin(e) {
     e.preventDefault();
-    const btn = document.getElementById('btn');
+    const btn = document.getElementById('submit-btn');
     const txt = document.getElementById('btn-text');
     const loader = document.getElementById('btn-loader');
     const errDiv = document.getElementById('error-msg');
-    txt.textContent = 'Verificando...';
+    const errTxt = document.getElementById('error-text');
+
+    txt.textContent = 'Entrando...';
     loader.classList.remove('hidden');
     btn.disabled = true;
     errDiv.classList.add('hidden');
-    await new Promise(r => setTimeout(r, 800));
+
     try {
         const data = await API.post('/auth/login', {
             email: document.getElementById('email').value,
             senha: document.getElementById('senha').value
         }, false);
-        if (data.user?.tipo !== 'admin') throw new Error('Acesso não autorizado.');
         localStorage.setItem('token', data.token);
         localStorage.setItem('user', JSON.stringify(data.user));
-        window.location.href = 'dashboard.html';
-    } catch (err) {
-        // Demo fallback
-        const email = document.getElementById('email').value;
-        const senha = document.getElementById('senha').value;
-        if (email === 'admin@maison.com' && senha === 'admin123') {
-            localStorage.setItem('token', 'demo-token');
-            localStorage.setItem('user', JSON.stringify({ id: 1, nome: 'Admin', email, tipo: 'admin' }));
-            window.location.href = 'dashboard.html';
-            return;
+        if (data.user.tipo === 'admin') {
+            window.location.href = 'admin/dashboard.html';
+        } else {
+            window.location.href = 'minha-conta.html';
         }
-        document.getElementById('error-text').textContent = err.message || 'Credenciais inválidas.';
+    } catch (err) {
+        errTxt.textContent = err.message || 'Email ou senha incorretos.';
         errDiv.classList.remove('hidden');
-        txt.textContent = 'Acessar Painel';
+        txt.textContent = 'Entrar';
         loader.classList.add('hidden');
         btn.disabled = false;
     }
