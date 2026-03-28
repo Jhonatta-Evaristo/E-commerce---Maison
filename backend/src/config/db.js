@@ -1,19 +1,24 @@
 const mysql = require('mysql2/promise');
 require('dotenv').config();
 
-const pool = mysql.createPool({
-  host: process.env.DB_HOST || 'localhost',
-  user: process.env.DB_USER || 'root',
-  password: process.env.DB_PASSWORD || '',
-  database: process.env.DB_NAME || 'ecommerce_roupas',
-  port: parseInt(process.env.DB_PORT) || 3306,
-  waitForConnections: true,
-  connectionLimit: 4,
-  queueLimit: 0,
-  decimalNumbers: true,
-  timezone: '-03:00',
-  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
-});
+let pool;
+
+if (process.env.DATABASE_URL) {
+  pool = mysql.createPool(process.env.DATABASE_URL + '?connectionLimit=4&ssl={"rejectUnauthorized":false}');
+} else {
+  pool = mysql.createPool({
+    host: process.env.DB_HOST || 'localhost',
+    user: process.env.DB_USER || 'root',
+    password: process.env.DB_PASSWORD || '',
+    database: process.env.DB_NAME || 'ecommerce_roupas',
+    port: parseInt(process.env.DB_PORT) || 3306,
+    waitForConnections: true,
+    connectionLimit: 4,
+    queueLimit: 0,
+    decimalNumbers: true,
+    timezone: '-03:00',
+  });
+}
 
 pool.getConnection()
   .then(conn => {
